@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/todo_db"
+      - "SPRING_DATASOURCE_USERNAME=root"
+      - "SPRING_DATASOURCE_PASSWORD=123456"
+      - "SERVER_PORT=8090"
+    depends_on:
+      - mysql
+    networks:
+      - spring-todo-networks
+
+  mysql:
+    image: "mysql:latest"
+    environment:
+      - "MYSQL_DATABASE=todo_db"
+      - "MYSQL_ROOT_PASSWORD=123456"
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-todo-networks
+
+networks:
+  spring-todo-networks:
+    driver: bridge
